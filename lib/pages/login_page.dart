@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'forgot_password_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -133,7 +134,11 @@ class Content extends StatelessWidget {
               Spacer(),
               TextButton(
                 onPressed: () {
-                  // Navigate to forgot password screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ForgotPasswordPage()),
+                  );
                 },
                 child: Text('Forgot Password?'),
               ),
@@ -167,8 +172,6 @@ class Content extends StatelessWidget {
                 icon: Icon(Icons.facebook),
                 iconSize: 40,
               ),
-             
-                
             ],
           ),
           SizedBox(height: 20),
