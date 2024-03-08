@@ -1,54 +1,50 @@
+import 'package:flutter_application_4/pages/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Importa FirebaseAuth
-import 'pages/login_page.dart'; // Importa la página de inicio de sesión
-import 'pages/forgot_password_page.dart'; // Importa la página de recuperación de contraseña
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyDzlC8PagfpTqv8bjgmTTWrGM_d9DkKZR8",
+      authDomain: "fluutter-4ae36.firebaseapp.com",
+      projectId: "fluutter-4ae36",
+      storageBucket: "fluutter-4ae36.appspot.com",
+      messagingSenderId: "941190943509",
+      appId: "1:941190943509:android:acdd52e1a61c20ba220f1c",
+      measurementId: "G-NT4E6HQH1V",
+    ),
+  );
 
-class MyApp extends StatelessWidget {
-  
-  // Crea una instancia de FirebaseAuth
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      home: LoginPage(auth: _auth), // Pasa la instancia de FirebaseAuth a la página de inicio de sesión
-      routes: {
-        '/forgot_password': (context) => ForgotPasswordPage(), // Define la ruta para la página de recuperación de contraseña
-      },
+  if (kIsWeb) {
+    // Inicializa el SDK de Facebook para web y escritorio
+    await FacebookAuth.i.webAndDesktopInitialize(
+      appId: "1928350454272133",
+      cookie: true,
+      xfbml: true,
+      version: "v15.0",
     );
   }
 
-  // Método para registrar un nuevo usuario
-  Future<void> registerWithEmailAndPassword(String email, String password) async {
-    try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      // Usuario registrado exitosamente
-    } catch (e) {
-      // Error al registrar el usuario
-    }
-  }
+  runApp(const MyApp());
+}
 
-  // Método para iniciar sesión con correo y contraseña
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
-    try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      // Usuario inició sesión exitosamente
-    } catch (e) {
-      // Error al iniciar sesión
-    }
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Material App',
+      home: LoginPage(),
+    );
   }
 }
